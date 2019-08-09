@@ -15,8 +15,8 @@ class ListDesenv extends Component {
     getMembers() {
 
         let desenvs = [];
-
         let url = 'http://localhost/app-react-readmine-capes/api-members.php'
+
         axios({
             method:'get',
             url
@@ -33,16 +33,14 @@ class ListDesenv extends Component {
                       if (a.user.name < b.user.name) {
                         return -1;
                       }
-                      // a must be equal to b
                       return 0;
                 })
-                
                 
                 this.setState({'desenvs' : desenvs})
                 this.getIssues()
             })
             .catch((error) => {
-                console.log(error, 'error');
+                console.error(error, 'error');
             });
     }
 
@@ -51,10 +49,12 @@ class ListDesenv extends Component {
         const desenvs = this.state.desenvs;
 
         desenvs.map((desenv, key) => {
-            
             this.getIssuesByDesenvId(desenv.user.id)
                 .then((res) => {
                     desenvs[key].demandas = res
+                })
+                .catch((error) => {
+                    console.error(error, 'error');
                 })
                 .finally(() => {
                     this.setState({'desenvs': desenvs})
@@ -65,6 +65,7 @@ class ListDesenv extends Component {
     getIssuesByDesenvId(desenvId) {
 
         let url = 'http://localhost/app-react-readmine-capes/api-issues.php?desenvId='+desenvId
+
         return axios({
             method:'get',
             url
@@ -73,7 +74,7 @@ class ListDesenv extends Component {
                 return res.data
             })
             .catch((error) => {
-                console.log(error, 'error');
+                console.error(error, 'error');
             });
     }
 
