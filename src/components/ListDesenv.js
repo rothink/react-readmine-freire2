@@ -1,33 +1,45 @@
-import React, {Component} from 'react';
-import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-      width: '100%',
-      maxWidth: 360,
-      backgroundColor: theme.palette.background.paper,
-    },
-    inline: {
-      display: 'inline',
-    },
-  }));
+import React, {Component} from 'react'
+import axios from 'axios'
+import { makeStyles } from '@material-ui/core/styles'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import Divider from '@material-ui/core/Divider'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Avatar from '@material-ui/core/Avatar'
+import Typography from '@material-ui/core/Typography'
+import Icon from '@material-ui/core/Icon'
+import Grid from '@material-ui/core/Grid'
+import Badge from '@material-ui/core/Badge'
 
 class ListDesenv extends Component {
 
+    state = {
+        desenvs: [],
+        issues_not_point: [],
+        classes: makeStyles(theme => ({
+            root: {
+              width: '100%',
+              maxWidth: 360,
+              backgroundColor: theme.palette.background.paper,
+            },
+            inline: {
+              display: 'inline',
+            },
+            margin: {
+                margin: theme.spacing(2),
+              },
+              padding: {
+                padding: theme.spacing(0, 2),
+              },
+          }))
+    }
+
     constructor(props) {
         super(props)
-        this.state = {
-            desenvs: [],
-            issues_not_point: []
-        }
+    }
+
+    componentDidMount() {
         this.getMembers();
         this.randomPhoto();
     }
@@ -142,39 +154,39 @@ class ListDesenv extends Component {
     }
 
     render() {
-        
         const desenvs = this.state.desenvs;
         const listDesenvs = desenvs.map((desenv) => {
 
-            return <div>
+            return <div key={desenv.id}>
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={desenv.photo} />
+                                <Avatar alt="Remy Sharp" src={desenv.photo} />
                             </ListItemAvatar>
                             <ListItemText
-                            primary={desenv.user.name}
-                            secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        
-                                        color="textPrimary"
-                                    >
-                                        demandas
-                                    </Typography>
-                                    <strong> {(desenv.demandas) ? desenv.demandas.total_count : 0} </strong> <br/>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        
-                                        color="textPrimary"
-                                    >
-                                        pontos
-                                    </Typography>
-                                    <strong> {desenv.total_points} </strong>
-                                </React.Fragment>
-                            }
+                                primary={desenv.user.name}
+                                secondary={
+                                    <React.Fragment>
+                                        <Typography
+                                            component="span"
+                                            variant="body2"
+                                            color="textPrimary"
+                                        >
+                                            demandas:
+                                            {/* <Badge color="primary" badgeContent={4} className={this.state.classes.margin}>
+                                                <Typography className={this.state.classes.padding}>Typography</Typography>
+                                            </Badge> */}
+                                        </Typography>
+                                        <strong> {(desenv.demandas) ? desenv.demandas.total_count : 0} </strong> <br/>
+                                        <Typography
+                                            component="span"
+                                            variant="body2"
+                                            color="textPrimary"
+                                        >
+                                            pontos:
+                                        </Typography>
+                                        <strong> {desenv.total_points} </strong>
+                                    </React.Fragment>
+                                }
                             />
                         </ListItem>
                         <Divider variant="inset" component="li" />
@@ -183,20 +195,21 @@ class ListDesenv extends Component {
 
         return (
             <div>
-                <div class="col s4">
-                <List>
-                    {listDesenvs}
-                </List>
+                <Grid container spacing={5}>
+                    <Grid item xs={4}>
+                        <List>
+                            {listDesenvs}
+                        </List>
+                    </Grid>
+                    <Grid item xs={8}>
+                        <div className="container">
+                            Agora tenho esse espaço em branco aqui
+                        </div>
+                    </Grid>
+                </Grid>
             </div>
-            <div class="col s8">
-                <div class="container">
-                    Agora tenho esse espaço em branco aqui
-                </div>
-            </div>
-        </div>
         );
     }
-
 }
 
 export default ListDesenv;
