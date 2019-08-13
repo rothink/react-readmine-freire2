@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ListDesenv from './components/ListDesenv'
+import {Container} from '@material-ui/core'
 
 class App extends Component {
 
@@ -10,9 +11,11 @@ class App extends Component {
     render() {
         return (
             <div> 
-                <div class="row">
-                    <ListDesenv />
-                </div>
+                
+                    <Container  maxWidth="xl">
+                        <ListDesenv />
+                    </Container>
+                
             </div>
         );
     }

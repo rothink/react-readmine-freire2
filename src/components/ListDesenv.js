@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ListIssues from '../components/ListIssues'
 import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
@@ -11,6 +12,8 @@ import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
 import Grid from '@material-ui/core/Grid'
 import Badge from '@material-ui/core/Badge'
+import Chip from '@material-ui/core/Chip'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class ListDesenv extends Component {
 
@@ -72,7 +75,7 @@ class ListDesenv extends Component {
                 this.getIssues()
             })
             .catch((error) => {
-                console.error(error, 'error');
+                
             });
     }
 
@@ -103,7 +106,7 @@ class ListDesenv extends Component {
                     desenvs[key].total_points = parseInt(total_points);
                 })
                 .catch((error) => {
-                    console.error(error, 'error');
+                    
                 })
                 .finally(() => {
                     this.setState({'issues_not_point' : issues_not_point})
@@ -124,7 +127,7 @@ class ListDesenv extends Component {
                 return res.data
             })
             .catch((error) => {
-                console.error(error, 'error');
+                
             });
     }
 
@@ -140,7 +143,7 @@ class ListDesenv extends Component {
                 photos = res.data.results
             })
             .catch((error) => {
-                console.error(error, 'error');
+                
             })
             .finally(() => {
                 let desenvs = this.state.desenvs
@@ -157,8 +160,13 @@ class ListDesenv extends Component {
         const desenvs = this.state.desenvs;
         const listDesenvs = desenvs.map((desenv) => {
 
-            return <div key={desenv.id}>
-                        <ListItem alignItems="flex-start">
+            let issues = (desenv.demandas && desenv.demandas.issues) ? desenv.demandas.issues : []
+
+            return <div >
+                        <ListItem alignItems="flex-start" >
+                            <Badge color="primary" badgeContent={4} className={this.state.classes.margin}>
+                                <Typography className={this.state.classes.padding}></Typography>
+                            </Badge>
                             <ListItemAvatar>
                                 <Avatar alt="Remy Sharp" src={desenv.photo} />
                             </ListItemAvatar>
@@ -172,9 +180,6 @@ class ListDesenv extends Component {
                                             color="textPrimary"
                                         >
                                             demandas:
-                                            {/* <Badge color="primary" badgeContent={4} className={this.state.classes.margin}>
-                                                <Typography className={this.state.classes.padding}>Typography</Typography>
-                                            </Badge> */}
                                         </Typography>
                                         <strong> {(desenv.demandas) ? desenv.demandas.total_count : 0} </strong> <br/>
                                         <Typography
@@ -185,29 +190,23 @@ class ListDesenv extends Component {
                                             pontos:
                                         </Typography>
                                         <strong> {desenv.total_points} </strong>
+                                        <ListIssues issues = {issues}/>
                                     </React.Fragment>
                                 }
                             />
                         </ListItem>
-                        <Divider variant="inset" component="li" />
+                        <Divider/>
                     </div>
         })
 
         return (
-            <div>
-                <Grid container spacing={5}>
-                    <Grid item xs={4}>
-                        <List>
-                            {listDesenvs}
-                        </List>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <div className="container">
-                            Agora tenho esse espaço em branco aqui
-                        </div>
-                    </Grid>
+            <Grid container>
+                <Grid item xs={9}>
+                    <List>
+                        {listDesenvs}
+                    </List>
                 </Grid>
-            </div>
+            </Grid>
         );
     }
 }
