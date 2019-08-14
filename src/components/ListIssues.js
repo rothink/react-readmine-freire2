@@ -10,10 +10,9 @@ class ListIssues extends Component {
         let issues = this.props.issues;
 
         const listIssues = issues.map((issue) => { 
-            console.info(issue,'isuse')
             let label = <Typography  key={issue.id}>
-                    #{issue.id}
-                </Typography> 
+                            #{issue.id}
+                        </Typography> 
             let link = 'https://redmine.capes.gov.br/issues/'+issue.id
             let description = issue.subject + ' - ' + issue.estimated_hours + ' Pontos'
             return <Button href={link} target="_blank">

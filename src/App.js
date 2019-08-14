@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ListDesenv from './components/ListDesenv'
 import {Container} from '@material-ui/core'
+import FormFilter from './components/FormFilter'
 
 class App extends Component {
 
@@ -11,11 +12,12 @@ class App extends Component {
     render() {
         return (
             <div> 
-                
-                    <Container  maxWidth="xl">
-                        <ListDesenv />
-                    </Container>
-                
+                <Container maxWidth="xl">
+                    <FormFilter />
+                </Container>
+                <Container maxWidth="xl">
+                    <ListDesenv />
+                </Container>
             </div>
         );
     }
