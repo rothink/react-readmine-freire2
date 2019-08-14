@@ -44,7 +44,6 @@ class ListDesenv extends Component {
 
     componentDidMount() {
         this.getMembers();
-        this.randomPhoto();
     }
 
     getMembers() {
@@ -131,31 +130,6 @@ class ListDesenv extends Component {
             });
     }
 
-    randomPhoto() {
-        let url = 'https://randomuser.me/api?results=100&gender=male'
-        let photos = [];
-
-        axios({
-            method:'get',
-            url
-        })
-            .then((res) => {
-                photos = res.data.results
-            })
-            .catch((error) => {
-                
-            })
-            .finally(() => {
-                let desenvs = this.state.desenvs
-                desenvs.map((desenv, key) => {
-                    desenvs[key].photo = photos[Math.floor(Math.random() * 100) + 1].picture.medium
-                })
-
-                this.setState({'desenvs': desenvs})
-
-            })
-    }
-
     render() {
         const desenvs = this.state.desenvs;
         const listDesenvs = desenvs.map((desenv) => {
@@ -168,7 +142,7 @@ class ListDesenv extends Component {
                                 <Typography className={this.state.classes.padding}></Typography>
                             </Badge>
                             <ListItemAvatar>
-                                <Avatar alt="Remy Sharp" src={desenv.photo} />
+                                <Avatar alt="Remy Sharp" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN9AVXgnPJ__t0dG2AL2qtw_FKjeI08QWpcDEnCxJbhyCT9TDr' />
                             </ListItemAvatar>
                             <ListItemText
                                 primary={desenv.user.name}
