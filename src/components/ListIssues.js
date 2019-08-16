@@ -15,11 +15,12 @@ class ListIssues extends Component {
                         </Typography> 
             let link = 'https://redmine.capes.gov.br/issues/'+issue.id
             let description = issue.subject + ' - ' + issue.estimated_hours + ' Pontos'
-            return <Button href={link} target="_blank">
-                <Tooltip title={description} placement="top">
-                    <Chip variant="outlined" color="primary" size="small" label={label} avatar={<Avatar>{issue.tracker.name.substring(0,1)}</Avatar>}/>
-                </Tooltip>
-            </Button>
+            return <Button href={link} target="_blank" key={issue.id}>
+                    <Tooltip title={description} placement="top">
+                        <Chip variant="outlined" color="primary" size="small" label={label} avatar={<Avatar>{issue.tracker.name.substring(0,1)}</Avatar>}/>
+                    </Tooltip>
+                </Button>
+                   
         })
 
         return (

@@ -13,10 +13,7 @@ class App extends Component {
         return (
             <div> 
                 <Container maxWidth="xl">
-                    <FormFilter />
-                </Container>
-                <Container maxWidth="xl">
-                    <ListDesenv />
+                    <ListDesenv/>
                 </Container>
             </div>
         );

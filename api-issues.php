@@ -6,8 +6,9 @@ error_reporting(E_ALL);
 header("Access-Control-Allow-Origin: *");
 
 $idDesenv = $_GET['desenvId'];
+$idSprint = $_GET['sprintId'];
 
-$url ='https://redmine.capes.gov.br/projects/plataformafreire/issues.json?assigned_to_id='.$idDesenv.'&key=06666c7cf65dfe4d1ee5e5ffb0c2e70a7518422f&offset=0&limit=100&sprint_id=291&status_id=6';
+$url ='https://redmine.capes.gov.br/projects/plataformafreire/issues.json?assigned_to_id='.$idDesenv.'&key=06666c7cf65dfe4d1ee5e5ffb0c2e70a7518422f&offset=0&limit=100&sprint_id='.$idSprint.'&status_id=6';
 $ch = curl_init();
 
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid'
 import Badge from '@material-ui/core/Badge'
 import Chip from '@material-ui/core/Chip'
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormFilter from './FormFilter';
 
 class ListDesenv extends Component {
 
@@ -38,15 +39,17 @@ class ListDesenv extends Component {
           }))
     }
 
-    constructor(props) {
+    constructor(props) {        
         super(props)
+        console.info(this.refs)
+        console.info(this.props.sprint)
     }
 
     componentDidMount() {
         this.getMembers();
     }
 
-    getMembers() {
+    getMembers(sprintId = 291) {
 
         let desenvs = [];
         let url = 'http://localhost/app-react-readmine-capes/api-members.php'
@@ -71,21 +74,21 @@ class ListDesenv extends Component {
                 })
                 
                 this.setState({'desenvs' : desenvs})
-                this.getIssues()
+                this.getIssues(sprintId )
             })
             .catch((error) => {
                 
             });
     }
 
-    getIssues() {
+    getIssues(sprintId) {
 
         const desenvs = this.state.desenvs;
         const issues_not_point = []
 
         desenvs.map((desenv, key) => {
 
-            this.getIssuesByDesenvId(desenv.user.id)
+            this.getIssuesByDesenvId(desenv.user.id, sprintId)
                 .then((res) => {
                     
                     let total_points = 0;
@@ -114,9 +117,9 @@ class ListDesenv extends Component {
         })
     }
 
-    getIssuesByDesenvId(desenvId) {
+    getIssuesByDesenvId(desenvId, sprintId) {
 
-        let url = 'http://localhost/app-react-readmine-capes/api-issues.php?desenvId='+desenvId
+        let url = 'http://localhost/app-react-readmine-capes/api-issues.php?desenvId='+desenvId+'&sprintId='+sprintId
 
         return axios({
             method:'get',
@@ -130,56 +133,62 @@ class ListDesenv extends Component {
             });
     }
 
+    handleSprintChange(event) {
+        this.getMembers(event.target.value)
+    }
+
     render() {
+
         const desenvs = this.state.desenvs;
         const listDesenvs = desenvs.map((desenv) => {
 
             let issues = (desenv.demandas && desenv.demandas.issues) ? desenv.demandas.issues : []
 
-            return <div >
-                        <ListItem alignItems="flex-start" >
-                            <Badge color="primary" badgeContent={4} className={this.state.classes.margin}>
-                                <Typography className={this.state.classes.padding}></Typography>
-                            </Badge>
-                            <ListItemAvatar>
-                                <Avatar alt="Remy Sharp" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN9AVXgnPJ__t0dG2AL2qtw_FKjeI08QWpcDEnCxJbhyCT9TDr' />
-                            </ListItemAvatar>
-                            <ListItemText
-                                primary={desenv.user.name}
-                                secondary={
-                                    <React.Fragment>
-                                        <Typography
-                                            component="span"
-                                            variant="body2"
-                                            color="textPrimary"
-                                        >
-                                            demandas:
-                                        </Typography>
-                                        <strong> {(desenv.demandas) ? desenv.demandas.total_count : 0} </strong> <br/>
-                                        <Typography
-                                            component="span"
-                                            variant="body2"
-                                            color="textPrimary"
-                                        >
-                                            pontos:
-                                        </Typography>
-                                        <strong> {desenv.total_points} </strong>
-                                        <ListIssues issues = {issues}/>
-                                    </React.Fragment>
-                                }
-                            />
-                        </ListItem>
+            return  <ListItem alignItems="flex-start" key={desenv.id} >
+                        <Badge color="primary" badgeContent={4} className={this.state.classes.margin}>
+                            <Typography className={this.state.classes.padding}></Typography>
+                        </Badge>
+                        <ListItemAvatar>
+                            <Avatar alt="Remy Sharp" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN9AVXgnPJ__t0dG2AL2qtw_FKjeI08QWpcDEnCxJbhyCT9TDr' />
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={desenv.user.name}
+                            secondary={
+                                <React.Fragment>
+                                    <Typography
+                                        component="span"
+                                        variant="body2"
+                                        color="textPrimary"
+                                    >
+                                        demandas:
+                                    </Typography>
+                                    <strong> {(desenv.demandas) ? desenv.demandas.total_count : 0} </strong> <br/>
+                                    <Typography
+                                        component="span"
+                                        variant="body2"
+                                        color="textPrimary"
+                                    >
+                                        pontos:
+                                    </Typography>
+                                    <strong> {desenv.total_points} </strong>
+                                </React.Fragment>
+                            }
+                        />
+                        <ListIssues issues = {issues}/>
                         <Divider/>
-                    </div>
+                    </ListItem>
+                    
         })
 
         return (
             <Grid container>
                 <Grid item xs={9}>
+                    <FormFilter/>
                     <List>
                         {listDesenvs}
                     </List>
                 </Grid>
+                
             </Grid>
         );
     }

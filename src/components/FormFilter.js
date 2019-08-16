@@ -3,17 +3,14 @@ import {TextField, MenuItem, InputAdornment, FormControl, Select} from '@materia
 
 const sprints = [
     {
-      value: '14',
+      value: '29',
       label: '14',
     },
     {
-      value: '15',
+      value: '291',
       label: '15',
     }
 ];
-
-
-
 
 class FormFilter extends Component {
     
@@ -23,27 +20,34 @@ class FormFilter extends Component {
 
     constructor(props) {
         super(props)
+        this.handleSprint = this.handleSprint.bind(this);
+
     }
     
 
     handleSprint(event) {
-        console.info(event.target.value,'valiue')
+        sprints.filter((sprint) => {
+            if(sprint.value == event.target.value) {
+                this.setState({'sprint' : sprint})
+            }
+        })
+        alert('troquei');
+        
     }
 
     render() {
 
-        
-
         return (
             <div>
                 <br/>
-                <FormControl fullWidth>
+                <FormControl fullWidth sprint={this.state.sprint}>
                     <TextField
                         select
                         variant="outlined"
                         label="With Select"
                         value={this.state.sprint.value}
                         onChange={this.handleSprint}
+                        onChange={this.props.onSprintChange}
                         InputProps={{
                             startAdornment: <InputAdornment position="start">Sprint</InputAdornment>,
                         }}
