@@ -35,7 +35,7 @@ const sprints = [
 class FormFilter extends Component {
     
     state = {
-        sprint: sprints[1]
+        sprint: sprints[(sprints.length-1)]
     }
 
     constructor(props) {
@@ -47,10 +47,10 @@ class FormFilter extends Component {
         let {onSprintChange} = this.props;
         sprints.filter((sprint) => {
             if(sprint.value == event.target.value) {
-                this.setState({sprint : sprint})
+                this.setState({sprint : sprint})        
+                onSprintChange(sprint.value)
             }
-        })
-        onSprintChange(this.state.sprint.value)
+        })        
     }
 
     render() {

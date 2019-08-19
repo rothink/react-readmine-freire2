@@ -139,6 +139,7 @@ class ListDesenv extends Component {
     }
 
     handleSprintChange = (idSprint) => {
+        console.info(idSprint,'id sprint')
         this.getIssues(idSprint)
     }
 
