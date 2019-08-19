@@ -12,11 +12,16 @@ import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
 import Grid from '@material-ui/core/Grid'
 import Badge from '@material-ui/core/Badge'
-import Chip from '@material-ui/core/Chip'
-import CircularProgress from '@material-ui/core/CircularProgress';
 import FormFilter from './FormFilter';
+import { deepOrange , deepPurple} from '@material-ui/core/colors';  
+
+
+
+
 
 class ListDesenv extends Component {
+
+    
 
     state = {
         desenvs: [],
@@ -27,6 +32,11 @@ class ListDesenv extends Component {
               maxWidth: 360,
               backgroundColor: theme.palette.background.paper,
             },
+            orangeAvatar: {
+                margin: 10,
+                color: '#fff',
+                backgroundColor: deepOrange[500],
+              },
             inline: {
               display: 'inline',
             },
@@ -144,7 +154,6 @@ class ListDesenv extends Component {
     }
 
     render() {
-
         const desenvs = this.state.desenvs;
         const listDesenvs = desenvs.map((desenv) => {
 
@@ -155,7 +164,7 @@ class ListDesenv extends Component {
                             <Typography className={this.state.classes.padding}></Typography>
                         </Badge>
                         <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN9AVXgnPJ__t0dG2AL2qtw_FKjeI08QWpcDEnCxJbhyCT9TDr' />
+                            <Avatar>{desenv.user.name[0]}</Avatar>
                         </ListItemAvatar>
                         <ListItemText
                             primary={desenv.user.name}
