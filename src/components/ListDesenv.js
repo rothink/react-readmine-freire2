@@ -43,6 +43,8 @@ class ListDesenv extends Component {
         super(props)
         console.info(this.refs)
         console.info(this.props.sprint)
+
+        
     }
 
     componentDidMount() {
@@ -73,15 +75,18 @@ class ListDesenv extends Component {
                       return 0;
                 })
                 
-                this.setState({'desenvs' : desenvs})
+                this.setState({desenvs},() => {                    
+                    
+                });
                 this.getIssues(sprintId )
+                
             })
             .catch((error) => {
                 
             });
     }
 
-    getIssues(sprintId) {
+    getIssues = (sprintId) => {
 
         const desenvs = this.state.desenvs;
         const issues_not_point = []
@@ -133,8 +138,8 @@ class ListDesenv extends Component {
             });
     }
 
-    handleSprintChange(event) {
-        this.getMembers(event.target.value)
+    handleSprintChange = (idSprint) => {
+        this.getIssues(idSprint)
     }
 
     render() {
@@ -183,7 +188,7 @@ class ListDesenv extends Component {
         return (
             <Grid container>
                 <Grid item xs={9}>
-                    <FormFilter/>
+                    <FormFilter onSprintChange={this.handleSprintChange}/>
                     <List>
                         {listDesenvs}
                     </List>
