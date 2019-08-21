@@ -14,6 +14,12 @@ import Grid from '@material-ui/core/Grid'
 import Badge from '@material-ui/core/Badge'
 import FormFilter from './FormFilter';
 import { deepOrange , deepPurple} from '@material-ui/core/colors';  
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 
 
@@ -159,49 +165,79 @@ class ListDesenv extends Component {
 
             let issues = (desenv.demandas && desenv.demandas.issues) ? desenv.demandas.issues : []
 
-            return  <ListItem alignItems="flex-start" key={desenv.id} >
-                        <Badge color="primary" badgeContent={4} className={this.state.classes.margin}>
-                            <Typography className={this.state.classes.padding}></Typography>
-                        </Badge>
-                        <ListItemAvatar>
-                            <Avatar>{desenv.user.name[0]}</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                            primary={desenv.user.name}
-                            secondary={
-                                <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        color="textPrimary"
-                                    >
-                                        demandas:
-                                    </Typography>
-                                    <strong> {(desenv.demandas) ? desenv.demandas.total_count : 0} </strong> <br/>
-                                    <Typography
-                                        component="span"
-                                        variant="body2"
-                                        color="textPrimary"
-                                    >
-                                        pontos:
-                                    </Typography>
-                                    <strong> {desenv.total_points} </strong>
-                                </React.Fragment>
-                            }
-                        />
-                        <ListIssues issues = {issues}/>
-                        <Divider/>
-                    </ListItem>
-                    
+            return <TableRow key={desenv.id}>
+                        <TableCell component="th" scope="row">
+                            <ListItem alignItems="flex-start" key={desenv.id} >
+                                <Badge color="primary" badgeContent= {(desenv.demandas) ? desenv.demandas.total_count : '0'} className={this.state.classes.margin}>
+                                    <Typography className={this.state.classes.padding}></Typography>
+                                </Badge>
+                                <ListItemAvatar>
+                                    <Avatar>{desenv.user.name[0]}</Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={desenv.user.name}
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                component="span"
+                                                variant="body2"
+                                                color="textPrimary"
+                                            >
+                                                pontos:
+                                            </Typography>
+                                            <strong> {desenv.total_points} </strong>
+                                        </React.Fragment>
+                                    }
+                                />
+                            </ListItem>
+                        </TableCell>
+                        <TableCell align="right">
+                            {/* Em planejamento */}
+                            <ListIssues issues = {issues} status = {`2`} /> 
+                        </TableCell> 
+                        <TableCell align="right">
+                            {/* Em execução */}
+                            <ListIssues issues = {issues} status = {`3`} /> 
+                        </TableCell>                        
+                        <TableCell align="right">
+                            {/* Em homolog */}
+                            <ListIssues issues = {issues} status = {`5`} /> 
+                        </TableCell>
+                        <TableCell align="right">
+                            {/* Code review */}
+                            <ListIssues issues = {issues} status = {`9`} /> 
+                        </TableCell>
+                        <TableCell align="right">
+                            {/* finalizado */}
+                            <ListIssues issues = {issues} status = {`6`} /> 
+                        </TableCell>
+                    </TableRow>
         })
 
         return (
             <Grid container>
-                <Grid item xs={9}>
+                <Grid item xs={12}>
                     <FormFilter onSprintChange={this.handleSprintChange}/>
-                    <List>
-                        {listDesenvs}
-                    </List>
+                    
+                        <Paper>
+                            <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Desenvolvedor</TableCell>
+                                    <TableCell align="center">Planejamento </TableCell>                                    
+                                    <TableCell align="center">Execução </TableCell>
+                                    <TableCell align="center">Homologação</TableCell>
+                                    <TableCell align="center">Revisão</TableCell>
+                                    <TableCell align="center">Finalizado</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {listDesenvs}
+                            </TableBody>
+                        </Table>
+                    </Paper>
+                        
+                    
                 </Grid>
                 
             </Grid>
