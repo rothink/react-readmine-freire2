@@ -81,6 +81,11 @@ class ListDesenv extends Component {
                     return res.roles.some(role => role.id == 4) // Desenv
                 })
 
+                //Retirando valdecy, zé e Thiagão
+                desenvs = desenvs.filter((dev) => {
+                    return (dev.id != 359 && dev.id != 362 && dev.id != 355)
+                })
+
                 desenvs.sort((a,b) => { 
                     if (a.user.name > b.user.name) {
                         return 1;
@@ -168,7 +173,7 @@ class ListDesenv extends Component {
             return <TableRow key={desenv.id}>
                         <TableCell component="th" scope="row">
                             <ListItem alignItems="flex-start" key={desenv.id} >
-                                <Badge color="primary" badgeContent= {(desenv.demandas) ? desenv.demandas.total_count : '0'} className={this.state.classes.margin}>
+                                <Badge color="secondary" badgeContent= {(desenv.demandas) ? desenv.demandas.total_count : '0'} className={this.state.classes.margin}>
                                     <Typography className={this.state.classes.padding}></Typography>
                                 </Badge>
                                 <ListItemAvatar>
