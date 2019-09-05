@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {TextField, MenuItem, InputAdornment, FormControl, Select} from '@material-ui/core';
+import {TextField, MenuItem, InputAdornment, FormControl, Select, Button} from '@material-ui/core';
 
 const sprints = [
     {
@@ -29,6 +29,10 @@ const sprints = [
     {
         value: '291',
         label: '15',
+    },
+    {
+        value: '305',
+        label: '16',
     }
 ];
 
@@ -41,9 +45,9 @@ class FormFilter extends Component {
     constructor(props) {
         super(props)        
     }
-    
 
     handleSprint = (event) => {
+        
         let {onSprintChange} = this.props;
         sprints.filter((sprint) => {
             if(sprint.value == event.target.value) {
@@ -51,6 +55,21 @@ class FormFilter extends Component {
                 onSprintChange(sprint.value)
             }
         })        
+    }
+
+    handleClickSprint = (event, value) => {
+
+        if(!value) {
+            value = event.target.value
+        }
+
+        let {onSprintChange} = this.props;
+        sprints.filter((sprint) => {
+            if(sprint.value == value) {
+                this.setState({sprint : sprint})        
+                onSprintChange(sprint.value)
+            }
+        }) 
     }
 
     render() {
@@ -76,7 +95,11 @@ class FormFilter extends Component {
                             </MenuItem>
                         ))}
                     </TextField>
+                    <Button variant="contained" color="primary" onClick={(e) => {this.handleClickSprint(e, this.state.sprint.value)}}>
+                        Atualizar
+                    </Button>
                 </FormControl>
+                <br/>
             </div>
         );
     }

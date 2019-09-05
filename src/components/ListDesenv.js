@@ -21,13 +21,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-
-
-
-
 class ListDesenv extends Component {
-
-    
 
     state = {
         desenvs: [],
@@ -57,17 +51,14 @@ class ListDesenv extends Component {
 
     constructor(props) {        
         super(props)
-        console.info(this.refs)
-        console.info(this.props.sprint)
-
         
     }
 
     componentDidMount() {
-        this.getMembers();
+        this.getMembers(this.props.sprint);
     }
 
-    getMembers(sprintId = 291) {
+    getMembers(sprintId = 305) {
 
         let desenvs = [];
         let url = 'http://localhost/app-react-readmine-capes/api-members.php'
@@ -160,8 +151,11 @@ class ListDesenv extends Component {
     }
 
     handleSprintChange = (idSprint) => {
-        console.info(idSprint,'id sprint')
         this.getIssues(idSprint)
+    }
+
+    handleSprintClick = (idSprint) => {
+        console.info(idSprint,'ID SPRINTviuaisgea')
     }
 
     render() {
@@ -223,9 +217,8 @@ class ListDesenv extends Component {
             <Grid container>
                 <Grid item xs={12}>
                     <FormFilter onSprintChange={this.handleSprintChange}/>
-                    
-                        <Paper>
-                            <Table>
+                    <Paper>
+                        <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Desenvolvedor</TableCell>
@@ -241,10 +234,7 @@ class ListDesenv extends Component {
                             </TableBody>
                         </Table>
                     </Paper>
-                        
-                    
                 </Grid>
-                
             </Grid>
         );
     }
