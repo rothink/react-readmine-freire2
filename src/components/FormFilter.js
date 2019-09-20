@@ -44,7 +44,8 @@ const sprints = [
 class FormFilter extends Component {
     
     state = {
-        sprint: sprints[(sprints.length-1)]
+        sprint: sprints[(sprints.length-1)],
+        issue: ''
     }
 
     constructor(props) {
@@ -77,8 +78,16 @@ class FormFilter extends Component {
         }) 
     }
 
+    handleIssueFilter = (event) => {
+
+        let {onIssueFilter} = this.props;
+        this.setState({issue: event.target.value})
+        onIssueFilter(this.state.sprint.value, event.target.value)
+    }
+
     render() {
         let {sprint} = this.state;
+        let {issue} = this.state;
 
         return (
             <div> 
@@ -110,6 +119,8 @@ class FormFilter extends Component {
                             <Input
                                 id="adornment-amount"
                                 startAdornment={<InputAdornment position="start">#</InputAdornment>}
+                                value={this.state.issue.value}
+                                onChange={(e) => this.handleIssueFilter(e)}
                             />
                         </FormControl>    
                     </Grid>

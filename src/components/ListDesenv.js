@@ -26,6 +26,7 @@ class ListDesenv extends Component {
     state = {
         desenvs: [],
         issues_not_point: [],
+        issue_filter: '',
         classes: makeStyles(theme => ({
             root: {
               width: '100%',
@@ -154,15 +155,27 @@ class ListDesenv extends Component {
         this.getIssues(idSprint)
     }
 
-    handleSprintClick = (idSprint) => {
-        console.info(idSprint,'ID SPRINTviuaisgea')
+    handleIssueFilter = (idSprint, idIssue) => {
+        this.setState({issue_filter: idIssue})
+        this.getIssues(idSprint)
     }
 
     render() {
+        
         const desenvs = this.state.desenvs;
+
         const listDesenvs = desenvs.map((desenv) => {
 
             let issues = (desenv.demandas && desenv.demandas.issues) ? desenv.demandas.issues : []
+
+            if(this.state.issue_filter) {
+                issues = issues.filter((issue) => {
+
+                    let issueString = issue.id.toString();
+                    let issueFilterString = this.state.issue_filter.toString();
+                    return issueString.includes(issueFilterString);
+                })
+            }
 
             return <TableRow key={desenv.id}>
                         <TableCell component="th" scope="row">
@@ -192,23 +205,27 @@ class ListDesenv extends Component {
                         </TableCell>
                         <TableCell align="right">
                             {/* Em planejamento */}
-                            <ListIssues issues = {issues} status = {`2`} /> 
+                            <ListIssues issues = {issues} status = {`2`} desenvs = {desenvs} /> 
                         </TableCell> 
                         <TableCell align="right">
                             {/* Em execução */}
-                            <ListIssues issues = {issues} status = {`3`} /> 
+                            <ListIssues issues = {issues} status = {`3`} desenvs = {desenvs} /> 
                         </TableCell>                        
                         <TableCell align="right">
                             {/* Code review */}
-                            <ListIssues issues = {issues} status = {`9`} /> 
+                            <ListIssues issues = {issues} status = {`9`} desenvs = {desenvs} /> 
+                        </TableCell>
+                        <TableCell align="right">
+                            {/* Test */}
+                            <ListIssues issues = {issues} status = {`4`} desenvs = {desenvs} />  
                         </TableCell>
                         <TableCell align="right">
                             {/* Em homolog */}
-                            <ListIssues issues = {issues} status = {`5`} /> 
+                            <ListIssues issues = {issues} status = {`5`} desenvs = {desenvs} />
                         </TableCell>                        
                         <TableCell align="right">
                             {/* finalizado */}
-                            <ListIssues issues = {issues} status = {`6`} /> 
+                            <ListIssues issues = {issues} status = {`6`} desenvs = {desenvs} />
                         </TableCell>
                     </TableRow>
         })
@@ -216,7 +233,7 @@ class ListDesenv extends Component {
         return (
             <Grid container>
                 <Grid item xs={12}>
-                    <FormFilter onSprintChange={this.handleSprintChange}/>
+                    <FormFilter onSprintChange={this.handleSprintChange} onIssueFilter={this.handleIssueFilter}/>
                     <Paper>
                         <Table>
                             <TableHead>
@@ -225,6 +242,7 @@ class ListDesenv extends Component {
                                     <TableCell align="center">Planejamento </TableCell>                                    
                                     <TableCell align="center">Execução </TableCell>
                                     <TableCell align="center">Revisão</TableCell>
+                                    <TableCell align="center">Teste</TableCell>
                                     <TableCell align="center">Homologação</TableCell>
                                     <TableCell align="center">Finalizado</TableCell>
                                 </TableRow>
