@@ -199,13 +199,13 @@ class ListDesenv extends Component {
                             <ListIssues issues = {issues} status = {`3`} /> 
                         </TableCell>                        
                         <TableCell align="right">
-                            {/* Em homolog */}
-                            <ListIssues issues = {issues} status = {`5`} /> 
-                        </TableCell>
-                        <TableCell align="right">
                             {/* Code review */}
                             <ListIssues issues = {issues} status = {`9`} /> 
                         </TableCell>
+                        <TableCell align="right">
+                            {/* Em homolog */}
+                            <ListIssues issues = {issues} status = {`5`} /> 
+                        </TableCell>                        
                         <TableCell align="right">
                             {/* finalizado */}
                             <ListIssues issues = {issues} status = {`6`} /> 
@@ -224,8 +224,8 @@ class ListDesenv extends Component {
                                     <TableCell>Desenvolvedor</TableCell>
                                     <TableCell align="center">Planejamento </TableCell>                                    
                                     <TableCell align="center">Execução </TableCell>
-                                    <TableCell align="center">Homologação</TableCell>
                                     <TableCell align="center">Revisão</TableCell>
+                                    <TableCell align="center">Homologação</TableCell>
                                     <TableCell align="center">Finalizado</TableCell>
                                 </TableRow>
                             </TableHead>

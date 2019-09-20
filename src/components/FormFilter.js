@@ -1,5 +1,10 @@
 import React, {Component} from 'react'
-import {TextField, MenuItem, InputAdornment, FormControl, Select, Button} from '@material-ui/core';
+import {TextField, MenuItem, InputAdornment, FormControl, Select, Button, Box, Grid} from '@material-ui/core';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+
+
 
 const sprints = [
     {
@@ -76,29 +81,45 @@ class FormFilter extends Component {
         let {sprint} = this.state;
 
         return (
-            <div>
+            <div> 
                 <br/>
-                <FormControl fullWidth sprint={sprint}>
-                    <TextField
-                        select
-                        variant="outlined"
-                        label="With Select"
-                        value={this.state.sprint.value}
-                        onChange={this.handleSprint}
-                        InputProps={{
-                            startAdornment: <InputAdornment position="start">Sprint</InputAdornment>,
-                        }}
-                    >
-                        {sprints.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                    <Button variant="contained" color="primary" onClick={(e) => {this.handleClickSprint(e, this.state.sprint.value)}}>
-                        Atualizar
-                    </Button>
-                </FormControl>
+                <Grid container spacing={3}>
+                    <Grid item xl={5} >
+                        <FormControl sprint={sprint} fullWidth>
+                            <TextField
+                                select
+                                label="With Select"
+                                value={this.state.sprint.value}
+                                onChange={this.handleSprint}
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">Sprint</InputAdornment>,
+                                }}
+                            >
+                                {sprints.map(option => (
+                                    <MenuItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </FormControl>
+                        
+                    </Grid>
+                    <Grid item xs={5}>
+                        <FormControl fullWidth>
+                            <InputLabel htmlFor="adornment-amount">Nª</InputLabel>
+                            <Input
+                                id="adornment-amount"
+                                startAdornment={<InputAdornment position="start">#</InputAdornment>}
+                            />
+                        </FormControl>    
+                    </Grid>
+                    <Grid item xs={2}>
+                        <br/>
+                        <Button fullWidth variant="contained" color="primary" onClick={(e) => {this.handleClickSprint(e, this.state.sprint.value)}}>
+                            Atualizar
+                        </Button>
+                    </Grid>
+                </Grid>
                 <br/>
             </div>
         );
