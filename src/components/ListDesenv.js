@@ -62,7 +62,7 @@ class ListDesenv extends Component {
     getMembers(sprintId = 312) {
 
         let desenvs = [];
-        let url = 'http://localhost/app-react-readmine-capes/api-members.php'
+        let url = 'http://localhost/react-readmine-freire2/api-members.php'
 
         axios({
             method:'get',
@@ -139,7 +139,7 @@ class ListDesenv extends Component {
 
     getIssuesByDesenvId(desenvId, sprintId) {
 
-        let url = 'http://localhost/app-react-readmine-capes/api-issues.php?desenvId='+desenvId+'&sprintId='+sprintId
+        let url = 'http://localhost/react-readmine-freire2/api-issues.php?desenvId='+desenvId+'&sprintId='+sprintId
 
         return axios({
             method:'get',
