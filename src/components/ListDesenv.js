@@ -59,7 +59,7 @@ class ListDesenv extends Component {
         this.getMembers(this.props.sprint);
     }
 
-    getMembers(sprintId = 305) {
+    getMembers(sprintId = 312) {
 
         let desenvs = [];
         let url = 'http://localhost/app-react-readmine-capes/api-members.php'
@@ -113,11 +113,13 @@ class ListDesenv extends Component {
 
                     if(res.issues.length > 0) {
                        res.issues.map((issue) => {
-                            if(!issue.estimated_hours) {
-                                issues_not_point.push(issue)
-                                return 0
-                            }
-                            total_points += issue.estimated_hours;
+
+                            let points = issue.custom_fields.find((e) => {
+                                return e.name == 'Pontos de história'
+                            })
+
+                            total_points += parseInt((points.value) ? points.value : 0)
+                            
                             return total_points
                         });
                     }
@@ -163,6 +165,7 @@ class ListDesenv extends Component {
     render() {
         
         const desenvs = this.state.desenvs;
+        let totalAllPoints = 0
 
         const listDesenvs = desenvs.map((desenv) => {
 
@@ -170,12 +173,13 @@ class ListDesenv extends Component {
 
             if(this.state.issue_filter) {
                 issues = issues.filter((issue) => {
-
                     let issueString = issue.id.toString();
                     let issueFilterString = this.state.issue_filter.toString();
                     return issueString.includes(issueFilterString);
                 })
             }
+
+            totalAllPoints += (desenv.total_points) ? desenv.total_points : 0
 
             return <TableRow key={desenv.id}>
                         <TableCell component="th" scope="row">
@@ -184,7 +188,7 @@ class ListDesenv extends Component {
                                     <Typography className={this.state.classes.padding}></Typography>
                                 </Badge>
                                 <ListItemAvatar>
-                                    <Avatar>{desenv.user.name[0]}</Avatar>
+                                    <Avatar>{desenv.user.name[0]}{desenv.user.name[1].toUpperCase()}</Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={desenv.user.name}
@@ -227,8 +231,14 @@ class ListDesenv extends Component {
                             {/* finalizado */}
                             <ListIssues issues = {issues} status = {`6`} desenvs = {desenvs} />
                         </TableCell>
-                    </TableRow>
+                </TableRow>      
         })
+
+        let table = <TableRow>
+                        <TableCell align="left">
+                            Total: <strong> {totalAllPoints} </strong> pontos
+                        </TableCell>
+                    </TableRow> 
 
         return (
             <Grid container>
@@ -248,7 +258,8 @@ class ListDesenv extends Component {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {listDesenvs}
+                                {listDesenvs}   
+                                {table}
                             </TableBody>
                         </Table>
                     </Paper>

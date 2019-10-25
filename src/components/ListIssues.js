@@ -22,7 +22,9 @@ class ListIssues extends Component {
                 return desenv.user.id == id
             })
 
-            return desenv[0].user.name
+            if(desenv[0]) {
+                return desenv[0].user.name
+            }
         }
     }
 
@@ -92,9 +94,11 @@ class ListIssues extends Component {
                         </Typography> 
             let link = 'https://redmine.capes.gov.br/issues/'+issue.id
 
-            if(!issue.estimated_hours) {
-                issue.estimated_hours = 0;
-            }
+            let points = issue.custom_fields.find((e) => {
+                return e.name == 'Pontos de história'
+            })
+
+            points = (points) ? points : 0
 
             return <Button href={link} target="_blank" key={issue.id} >
                     <Tooltip title={
@@ -102,10 +106,10 @@ class ListIssues extends Component {
                             <Typography color="inherit">{issue.subject+'.' }</Typography>
                             <Typography color="inherit"><strong>Desenv: {this.nameDesenv}</strong></Typography>
                             <Typography color="inherit"><strong>Autor: {issue.author.name}</strong></Typography>
-                            <h2><strong>{issue.estimated_hours + ' Pontos'}</strong></h2>
+                            <h2><strong>{(points.value) ? points.value : '0' + ' Pontos'}</strong></h2>
                       </React.Fragment>
                     } placement="top">
-                    <Badge color="primary" badgeContent={(issue.estimated_hours) ? issue.estimated_hours : '0'} >
+                    <Badge color="primary" badgeContent={(points.value) ? points.value : '0'} >
                         <Chip variant="outlined" style={style} size="small" label={label} avatar={<Avatar>{issue.tracker.name.substring(0,1)}</Avatar>}/>
                     </Badge>
                     </Tooltip>
