@@ -11,6 +11,7 @@ class ListIssues extends Component {
         EXECUCAO : 3,
         CODEREVIEW : 9,
         HOMOLOGACAO : 5,
+        HOMOLOGADO : 10,
         PLANEJAMENTO : 2,
         TESTE: 4
     
@@ -82,6 +83,11 @@ class ListIssues extends Component {
             if(issue.status.id == this.damandaStatus.HOMOLOGACAO) {
                 style.background = 'linear-gradient(45deg, #a3a310 30%, #f5f573 90%)'
                 style.boxShadow = '0 3px 5px 2px rgba(243, 239, 145, 1)'
+            }
+
+            if(issue.status.id == this.damandaStatus.HOMOLOGADO) {
+                style.background = 'linear-gradient(45deg, #CD9B9B 30%, #8B4513 90%)'
+                style.boxShadow = '0 3px 5px 2px rgba(139, 69, 19, 1)'
             }
 
             if(issue.status.id == this.damandaStatus.PLANEJAMENTO) {

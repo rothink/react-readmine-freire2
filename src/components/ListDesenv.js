@@ -59,7 +59,7 @@ class ListDesenv extends Component {
         this.getMembers(this.props.sprint);
     }
 
-    getMembers(sprintId = 314) {
+    getMembers(sprintId = 403) {
 
         let desenvs = [];
         let url = 'http://localhost/react-readmine-freire2/api-members.php'
@@ -108,19 +108,17 @@ class ListDesenv extends Component {
 
             this.getIssuesByDesenvId(desenv.user.id, sprintId)
                 .then((res) => {
-                    
                     let total_points = 0;
-
                     if(res.issues.length > 0) {
                        res.issues.map((issue) => {
-
-                            let points = issue.custom_fields.find((e) => {
-                                return e.name == 'Pontos de história'
-                            })
-
-                            total_points += parseInt((points.value) ? points.value : 0)
-                            
-                            return total_points
+                            if(issue.status.id == 6 ) { // Somente demandas finalizadas
+                                let points = issue.custom_fields.find((e) => {
+                                    return e.name == 'Pontos de história'
+                                })
+                                total_points += parseInt((points.value) ? points.value : 0)
+                                return total_points
+                            } 
+                            return 0
                         });
                     }
                     
@@ -226,7 +224,11 @@ class ListDesenv extends Component {
                         <TableCell align="right">
                             {/* Em homolog */}
                             <ListIssues issues = {issues} status = {`5`} desenvs = {desenvs} />
-                        </TableCell>                        
+                        </TableCell>       
+                        <TableCell align="right">
+                            {/* Homologado */}
+                            <ListIssues issues = {issues} status = {`10`} desenvs = {desenvs} />
+                        </TableCell>                 
                         <TableCell align="right">
                             {/* finalizado */}
                             <ListIssues issues = {issues} status = {`6`} desenvs = {desenvs} />
@@ -254,6 +256,7 @@ class ListDesenv extends Component {
                                     <TableCell align="center">Revisão</TableCell>
                                     <TableCell align="center">Teste</TableCell>
                                     <TableCell align="center">Homologação</TableCell>
+                                    <TableCell align="center">Homologado</TableCell>
                                     <TableCell align="center">Finalizado</TableCell>
                                 </TableRow>
                             </TableHead>
