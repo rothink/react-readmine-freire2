@@ -63,6 +63,20 @@ const sprints = [
         value: '403',
         label: '22'
     },
+    {
+        value: '470',
+        label: '23'
+    },
+    {
+        value: '490',
+        label: '24'
+    },
+    {
+        value: '512',
+        label: '25'
+    },
+    
+    
     
 ];
 
@@ -131,7 +145,7 @@ class FormFilter extends Component {
                             >
                                 {sprints.map(option => (
                                     <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
+                                         {option.label}
                                     </MenuItem>
                                 ))}
                             </TextField>
