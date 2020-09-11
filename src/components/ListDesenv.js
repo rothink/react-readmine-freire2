@@ -57,7 +57,7 @@ class ListDesenv extends Component {
     this.getMembers(this.props.sprint);
   }
 
-  getMembers(sprintId = 644) {
+  getMembers(sprintId = 647) {
     let desenvs = [];
     let url = "http://localhost/react-readmine-freire2/api-members.php";
 
